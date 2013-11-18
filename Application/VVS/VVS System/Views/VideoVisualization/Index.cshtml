@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("http://vjs.zencdn.net/4.3/video-js.css")
+@Scripts.Render("http://vjs.zencdn.net/4.3/video.js")
+
+<h2>Index</h2>
+
+<video id="my_video_1" class="video-js vjs-default-skin" controls
+       preload="auto" width="640" height="264" poster="../Content/Videos/Posters/cati.png"
+       data-setup="{}">
+    <source src="../Content/Videos/Coke_2012_Commercial.mp4" type='video/mp4'>
+</video>
