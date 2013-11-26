@@ -1,0 +1,21 @@
+﻿@model IEnumerable<VVS_System.Models.Video>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h1>Search Results</h1>
+
+<br />
+<div class="row">
+    @foreach (VVS_System.Models.Video v in Model)
+    {
+        <div class="col-lg-4">
+            <img class="img-thumbnail" style="width: 200px; height: 140px;" src="@v.PosterPath">
+            <h4>@v.Name</h4>
+            <p>Outra info para por aki</p>
+            <p>@Html.ActionLink("Watch Video", "Index", "VideoVisualization", new { video = @v.ID }, new { @class = "btn btn-default" })</p>
+        </div><!-- /.col-lg-4 -->
+    }
+</div>
+

@@ -162,20 +162,40 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\VideoVisualizationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Video.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\VideoContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Videos\Audi_2013_Commercial.mp4" />
     <Content Include="Content\Videos\Coke_2012_Commercial.mp4" />
+    <Content Include="Content\Videos\Heineken_Commercial.mp4" />
+    <Content Include="Content\Videos\Posters\Audi_2013_Commercial.png" />
+    <Content Include="Content\Videos\Posters\Coke_2012_Commercial.png" />
+    <Content Include="Content\Videos\Posters\Heineken_Commercial.png" />
+    <Content Include="Content\Videos\Posters\Hyundai_Veloster_Commercial.png" />
+    <Content Include="Content\Videos\Posters\MMs_Commercial.png" />
+    <Content Include="Content\Videos\Posters\Nintendo_3DS Luigi%27s_Mansion_Commercial.png" />
+    <Content Include="Content\Videos\Posters\Turkish_Airlines_Commercial.png" />
+    <Content Include="Content\Videos\Posters\Volkswagen_2012_Commercial.png" />
+    <Content Include="Content\Videos\Posters\VW_Passat_2011_Commercial.png" />
+    <Content Include="Content\Videos\Turkish_Airlines_Commercial.mp4" />
+    <Content Include="Content\Videos\MMs_Commercial.mp4" />
+    <Content Include="Content\Videos\Nintendo_3DS_Luigi%27s_Mansion_Commercial.mp4" />
     <Content Include="Content\Videos\Posters\cati.png" />
+    <Content Include="Content\Videos\Hyundai_Veloster_Commercial.mp4" />
+    <Content Include="Content\Videos\Volkswagen_2012_Commercial.mp4" />
+    <Content Include="Content\Videos\VW_Passat_2011_Commercial.mp4" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -220,6 +240,8 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\VideoVisualization\Index.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,5 @@
-﻿
+﻿@model VVS_System.Models.Video
+
 @{
     ViewBag.Title = "Index";
 }
@@ -6,10 +7,12 @@
 @Styles.Render("http://vjs.zencdn.net/4.3/video-js.css")
 @Scripts.Render("http://vjs.zencdn.net/4.3/video.js")
 
-<h2>Index</h2>
+<h2>@Model.Name</h2>
+
+<br />
 
 <video id="my_video_1" class="video-js vjs-default-skin" controls
-       preload="auto" width="640" height="264" poster="../Content/Videos/Posters/cati.png"
+       preload="auto" width="640" height="264" poster="@Model.PosterPath"
        data-setup="{}">
-    <source src="../Content/Videos/Coke_2012_Commercial.mp4" type='video/mp4'>
+    <source src="@Model.VideoPath" type='video/mp4'>
 </video>

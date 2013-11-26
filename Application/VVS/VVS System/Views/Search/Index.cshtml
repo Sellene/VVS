@@ -1,0 +1,81 @@
+﻿@model IEnumerable<VVS_System.Models.Video>
+
+@*@Styles.Render("http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css")
+@Scripts.Render("http://code.jquery.com/ui/1.10.3/jquery-ui.js")
+@Scripts.Render("http://code.jquery.com/jquery-1.9.1.js")
+
+@section script {
+
+    <script type="text/javascript">
+                $(function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#search" ).autocomplete({
+      source: availableTags
+    });
+  });
+    </script>
+}*@
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Search Videos</h1>
+<br />
+
+@using (Html.BeginForm("Search", "Search", FormMethod.Post))
+{
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input name="searchKeywords" class="form-control" id="search" type="text" value="I'm looking for..." />
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+}
+
+<br />
+<br />
+<br />
+
+<h2>Recommended</h2>
+<br />
+<div class="row">
+    @foreach (VVS_System.Models.Video v in Model)
+    {
+        <div class="col-lg-4">
+            <img class="img-thumbnail" style="width: 200px; height: 140px;" src="@v.PosterPath">
+            <h4>@v.Name</h4>
+            <p>Outra info para por aki</p>
+            <p>@Html.ActionLink("Watch Video", "Index", "VideoVisualization", new { video = @v.ID }, new { @class = "btn btn-default" })</p>
+        </div><!-- /.col-lg-4 -->
+    }
+</div>
