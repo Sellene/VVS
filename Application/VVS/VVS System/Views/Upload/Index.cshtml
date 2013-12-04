@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<style type="text/css">
+    #dropZone {
+        background: gray;
+        border: black dashed 3px;
+        width: 200px;
+        padding: 50px;
+        text-align: center;
+        color: white;
+    }
+</style>
+
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.filedrop.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#dropZone').filedrop({
+            url: '@Url.Action("UploadFiles", "Upload")',
+            paramname: 'files',
+            maxFiles: 5,
+            error: function (err, file) {
+                switch (err) {
+                    case 'BrowserNotSupported':
+                        alert('browser does not support HTML5 drag and drop');
+                        break;
+                    case 'TooManyFiles':
+                        // user uploaded more than 'maxfiles'
+                        break;
+                    case 'FileTooLarge':
+                        // program encountered a file whose size is greater than 'maxfilesize'
+                        // FileTooLarge also has access to the file which was too large
+                        // use file.name to reference the filename of the culprit file
+                        break;
+                    case 'FileTypeNotAllowed':
+                        $('#dropZone').html('File type not supported!');
+                        break;
+                    case 'FileExtensionNotAllowed':
+                        $('#dropZone').html('File extension not supported!');
+                        break;
+                    default:
+                        break;
+                }
+            },
+            allowedfiletypes: ['video/mp4'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
+            allowedfileextensions: ['.mp4'],
+            dragOver: function () {
+                $('#dropZone').css('background', 'blue');
+            },
+            dragLeave: function () {
+                $('#dropZone').css('background', 'gray');
+            },
+            drop: function () {
+                $('#dropZone').css('background', 'gray');
+            },
+            afterAll: function () {
+                $('#dropZone').html('The file(s) have been uploaded successfully!');
+            },
+            uploadFinished: function (i, file, response, time) {
+                $('#uploadResult').append('<li>' + file.name + '</li>');
+            }
+        });
+    });
+</script>
+
+<h2>File Drag & Drop Upload Demo</h2>
+<div id="dropZone">Drop your files here</div>
+<br />
+Uploaded Files:
+<ul id="uploadResult"></ul>
+
+
