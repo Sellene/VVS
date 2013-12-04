@@ -17,13 +17,13 @@ namespace VVS_System.Controllers
         }
         
         [HttpPost]
-        public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files)
+        public ActionResult UploadFiles(HttpPostedFileBase file)
         {
-            foreach (HttpPostedFileBase file in files)
-            {
+            //foreach (HttpPostedFileBase file in files)
+            //{
                 string path  = Server.MapPath("..\\Content\\Videos") + "\\" + file.FileName;
                 System.IO.File.WriteAllBytes(path, ReadData(file.InputStream));
-            }
+            //}
 
             return Json("All files have been successfully stored.");
         }

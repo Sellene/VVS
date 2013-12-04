@@ -38,9 +38,9 @@
         allowedfileextensions: [],
         allowedfiletypes: [],
         maxfiles: 25,           // Ignored if queuefiles is set > 0
-        maxfilesize: 1,         // MB file size limit
-        queuefiles: 0,          // Max files before queueing (for large volume uploads)
-        queuewait: 200,         // Queue wait time if full
+        maxfilesize: 1024,         // MB file size limit
+        queuefiles: 3000,          // Max files before queueing (for large volume uploads)
+        queuewait: 20000,         // Queue wait time if full
         data: {},
         headers: {},
         drop: empty,
