@@ -1,4 +1,4 @@
-﻿@model VVS_System.Models.Video
+﻿@model VVS_System.Models.VideoModel
 
 @{
     ViewBag.Title = "Index";
@@ -7,12 +7,32 @@
 @Styles.Render("http://vjs.zencdn.net/4.3/video-js.css")
 @Scripts.Render("http://vjs.zencdn.net/4.3/video.js")
 
-<h2>@Model.Name</h2>
+<h2>@Model.Video.Name</h2>
 
 <br />
 
 <video id="my_video_1" class="video-js vjs-default-skin" controls
-       preload="auto" width="640" height="264" poster="@Model.PosterPath"
+       preload="auto" width="640" height="264" poster="@Model.Video.PosterPath"
        data-setup="{}">
-    <source src="@Model.VideoPath" type='video/mp4'>
+    <source src="@Model.Video.VideoPath" type='video/mp4'>
 </video>
+
+<br />
+<div style="margin-left:15px">
+    <p><strong>Visualizations:</strong> @Model.Video.Visualizations</p>
+    <p style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.TotalLikes <span style="color: red; margin-left:15px" class="glyphicon glyphicon-thumbs-down"> @Model.TotalDislikes</span></p>
+
+    <br />
+
+    @foreach (VVS_System.Models.Comment c in @Model.Comments)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>@c.User.Name</strong> <small>[@c.Date.ToString("dd MM yyyy HH:mm:ss")]</small></h3>
+            </div>
+            <div class="panel-body">
+                @c.Text
+            </div>
+        </div>
+    }
+</div>

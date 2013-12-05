@@ -13,8 +13,8 @@ namespace VVS_System.Controllers
         // GET: /VideoVisualition/
         public ActionResult Index(int video)
         {
-            VideoContainer vs = new VideoContainer();
-            return View(vs.getVideo(video));
+            Container vs = new Container();
+            return View(vs.getVideoModel(video));
         }
 
         

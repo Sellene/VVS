@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VVS_System.Models.Video>
+﻿@model IEnumerable<VVS_System.Models.VideoModel>
 
 @{
     ViewBag.Title = "Search";
@@ -8,13 +8,16 @@
 
 <br />
 <div class="row">
-    @foreach (VVS_System.Models.Video v in Model)
+    @foreach (VVS_System.Models.VideoModel v in Model)
     {
-        <div class="col-lg-4">
-            <img class="img-thumbnail" style="width: 200px; height: 140px;" src="@v.PosterPath">
-            <h4>@v.Name</h4>
-            <p>Outra info para por aki</p>
-            <p>@Html.ActionLink("Watch Video", "Index", "VideoVisualization", new { video = @v.ID }, new { @class = "btn btn-default" })</p>
+        <div class="col-lg-4" style="margin-bottom:15px">
+            <img class="img-thumbnail" style="width: 200px; height: 140px;" src="@v.Video.PosterPath">
+            <h4>@v.Video.Name</h4>
+            <p style="margin-left:10px"><strong>Visualizations:</strong> @v.Video.Visualizations</p>
+            <p style="color: green; margin-left:15px"><span class="glyphicon glyphicon-thumbs-up"></span> @v.TotalLikes</p>
+            <p style="color: red; margin-left:15px"><span class="glyphicon glyphicon-thumbs-down"></span> @v.TotalDislikes</p>
+            <p>@Html.ActionLink("Watch Video", "Index", "VideoVisualization", new { video = @v.Video.ID }, new { @class = "btn btn-default" })</p>
+            <p></p>
         </div><!-- /.col-lg-4 -->
     }
 </div>

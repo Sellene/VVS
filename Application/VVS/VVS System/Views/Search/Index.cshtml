@@ -1,43 +1,16 @@
-﻿@model IEnumerable<VVS_System.Models.Video>
+﻿@model IEnumerable<VVS_System.Models.VideoModel>
 
-@*@Styles.Render("http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css")
-@Scripts.Render("http://code.jquery.com/ui/1.10.3/jquery-ui.js")
-@Scripts.Render("http://code.jquery.com/jquery-1.9.1.js")
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
-@section script {
-
-    <script type="text/javascript">
-                $(function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( "#search" ).autocomplete({
-      source: availableTags
+<script type="text/javascript">
+    $(function() {
+        $( "#search" ).autocomplete({
+            source: '@Url.Action("Find", "Search")', minChars: 1, delay: 500
+        });
     });
-  });
     </script>
-}*@
 
 @{
     ViewBag.Title = "Index";
@@ -69,13 +42,16 @@
 <h2>Recommended</h2>
 <br />
 <div class="row">
-    @foreach (VVS_System.Models.Video v in Model)
+    @foreach (VVS_System.Models.VideoModel v in Model)
     {
-        <div class="col-lg-4">
-            <img class="img-thumbnail" style="width: 200px; height: 140px;" src="@v.PosterPath">
-            <h4>@v.Name</h4>
-            <p>Outra info para por aki</p>
-            <p>@Html.ActionLink("Watch Video", "Index", "VideoVisualization", new { video = @v.ID }, new { @class = "btn btn-default" })</p>
+        <div class="col-lg-4" style="margin-bottom:15px">
+            <img class="img-thumbnail" style="width: 200px; height: 140px;" src="@v.Video.PosterPath">
+            <h4>@v.Video.Name</h4>
+            <p style="margin-left:10px"><strong>Visualizations:</strong> @v.Video.Visualizations</p>
+            <p style="color: green; margin-left:15px"><span class="glyphicon glyphicon-thumbs-up"></span> @v.TotalLikes</p>
+            <p style="color: red; margin-left:15px"><span class="glyphicon glyphicon-thumbs-down"></span> @v.TotalDislikes</p>
+            <p>@Html.ActionLink("Watch Video", "Index", "VideoVisualization", new { video = @v.Video.ID }, new { @class = "btn btn-default" })</p>
+            <p></p>
         </div><!-- /.col-lg-4 -->
     }
 </div>

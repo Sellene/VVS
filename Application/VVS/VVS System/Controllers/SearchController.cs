@@ -13,8 +13,8 @@ namespace VVS_System.Controllers
         // GET: /Search/
         public ActionResult Index()
         {
-            VideoContainer vc = new VideoContainer();
-            IEnumerable<Video> videos = vc.getRecommended(6);
+            Container vc = new Container();
+            IEnumerable<VideoModel> videos = vc.getVideosModel(null);
 
             return View(videos);
         }
@@ -24,8 +24,8 @@ namespace VVS_System.Controllers
         {
             if (searchKeywords != null && !searchKeywords.Equals(""))
             {
-                VideoContainer vs = new VideoContainer();
-                return View(vs.getVideos(searchKeywords));
+                Container vs = new Container();
+                return View(vs.getVideosModel(searchKeywords));
             }
 
             return View("Index");
@@ -33,7 +33,8 @@ namespace VVS_System.Controllers
 
         public ActionResult Find(string term)
         {
-            string[] products = { "hi", "bye" };
+            Container vs = new Container();
+            string[] products = vs.getVideosNames(term);
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 	}
