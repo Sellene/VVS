@@ -14,6 +14,7 @@ namespace VVS_System.Models
         public String Text { get; set; }
 
         public DateTime Date { get; set; }
+        public String FormatDate { get; set; }
 
         public Comment(User user, Video video, String comment, DateTime date)
         {
@@ -21,6 +22,7 @@ namespace VVS_System.Models
             Video = video;
             Text = comment;
             Date = date;
+            FormatDate = Date.ToString("dd/MM/yyyy HH:mm:ss");
         }
     }
 }

@@ -17,13 +17,15 @@ namespace VVS_System.Models
 
         public IEnumerable<Comment> Comments { get; set; }
 
+        public String Subscription { get; set; }
 
-        public VideoModel(Video v, int likes, int dislikes, IEnumerable<Comment> comment)
+        public VideoModel(Video v, int likes, int dislikes, IEnumerable<Comment> comment, String subscription)
         {
             Video = v;
             TotalLikes = likes;
             TotalDislikes = dislikes;
             Comments = comment;
+            Subscription = subscription;
         }
     }
 }

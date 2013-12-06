@@ -38,6 +38,8 @@ namespace VVS_System.Controllers
                 videoGlobal.VideoPath = videoPath;
                 System.IO.File.WriteAllBytes(videoPath, ReadData(file.InputStream));
 
+                //VERIFICAR SE O VIDEO JA ESTA ESCRITO
+
                 //Gerar Thumbnail
                 MediaPlayer player = new MediaPlayer { Volume = 0, ScrubbingEnabled = true };
                 player.Open(new Uri(videoPath));
@@ -78,7 +80,7 @@ namespace VVS_System.Controllers
                 encoder.Save(ms);
 
                 imagePath = Path.ChangeExtension(Server.MapPath("..\\Content\\Videos\\Posters") + "\\" + file.FileName,
-                    "png");//Server.MapPath("..\\Content\\Videos\\Posters") + "\\";
+                    "png");
                 using (FileStream myFile = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
                 {
                     ms.WriteTo(myFile);
@@ -86,74 +88,6 @@ namespace VVS_System.Controllers
 
                 player.Close();
             }
-
-            if (file.ContentType.Contains("image"))
-            {
-                imagePath = Path.ChangeExtension(Server.MapPath("..\\Content\\Videos\\Posters") + "\\" + file.FileName, "png");
-                videoGlobal.PosterPath = imagePath;
-                System.IO.File.WriteAllBytes(imagePath, ReadData(file.InputStream));
-            }
-
-            
-            
-
-            //try
-            //{
-            //    MediaDetClass loMD = new MediaDetClass();
-            //    loMD.Filename = Server.MapPath("..\\Content\\Videos") + "\\" + "IG1.mp4";
-            //    loMD.CurrentStream = 0; 
-            //    loMD.WriteBitmapBits(0, 150, 150, imagePath);
-
-            //    System.Drawing.Image loImg = System.Drawing.Image.FromFile(imagePath);
-            //    loImg.Save(imagePath, ImageFormat.Png);
-            //    loImg.Dispose();
-            //    System.IO.File.Delete(imagePath);
-            //}
-            //catch (Exception loEx)
-            //{
-            //    // Means media not supported
-            //}
-
-
-
-            //// create instance of video reader
-            //VideoFileReader reader = new VideoFileReader();
-            //// open video file
-            //reader.Open(videoPath);
-            ////// check some of its attributes
-            ////Console.WriteLine("width:  " + reader.Width);
-            ////Console.WriteLine("height: " + reader.Height);
-            ////Console.WriteLine("fps:    " + reader.FrameRate);
-            ////Console.WriteLine("codec:  " + reader.CodecName);
-            //// read 100 video frames out of it
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    Bitmap videoFrame = reader.ReadVideoFrame();
-            //    videoFrame.Save(imagePath, System.Drawing.Imaging.ImageFormat.Png);
-
-            //    // dispose the frame when it is no longer required
-            //    videoFrame.Dispose();
-            //}
-            //reader.Close();
-
-
-            //// Getting Frame From Video only not storing.
-            //    Bitmap bmp = FrameGrabber.GetFrameFromVideo(videoPath, 0.2d);
-            //    FrameGrabber.SaveFrameFromVideo(videoPath, 0.2d, imagePath);
-            //    bmp.Save(imagePath, System.Drawing.Imaging.ImageFormat.Gif);
-                
-
-           
-            
-            ////Storing return bmp from FrameGrabber Class.
-            //bmp.Save(imagePath, System.Drawing.Imaging.ImageFormat.Png);
-
-            //// You get the frame and can save also this frame to specified location like which require the path of video and the image path.
-            //// Path of the video and frame storing path
-            //string videopath = Server.MapPath("~/Video/search.AVI");
-            //string _imagepath = Server.MapPath("~/Frames/CropedImage.jpg");
-            //FrameGrabber.SaveFrameFromVideo(_videopath, 0.2d, _imagepath);
-            //bmp.Save(_imagepath, System.Drawing.Imaging.ImageFormat.Gif);
 
             return Json("All files have been successfully stored.");
         }

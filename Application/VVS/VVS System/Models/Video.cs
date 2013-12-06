@@ -39,10 +39,5 @@ namespace VVS_System.Models
             IsPrivate = isPrivate;
             AllowComments = allowComments;
         }
-
-        public void AddVisualization()
-        {
-            Visualizations++;
-        }
     }
 }

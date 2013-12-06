@@ -1,38 +1,204 @@
 ﻿@model VVS_System.Models.VideoModel
 
+@Styles.Render("http://vjs.zencdn.net/4.3/video-js.css")
+@Scripts.Render("http://vjs.zencdn.net/4.3/video.js")
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+<script>
+    function likes(video, action, islike) {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var response = xmlhttp.responseText.substring(1,xmlhttp.responseText.length-1).split(";", 5);
+                document.getElementById('totalLikes').innerHTML = response[0];
+                document.getElementById('totalDislikes').innerHTML = response[1];
+            }
+        }
+        xmlhttp.open("POST", action);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("video=" + video +"&isLike="+islike);
+    }
+
+    function addComment(video, action) {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                
+                var comment = JSON.parse(xmlhttp.responseText);
+                
+                var divElement = document.getElementById('comments');
+                var newElement = document.createElement("div");
+                newElement.className = "panel panel-default";
+                newElement.innerHTML = "<div class='panel-heading'>" +
+                    "<h3 class='panel-title'><strong>" + comment.UserName + "</strong> <small> [" + comment.Date + "]</small></h3>" +
+                    "</div> <div class='panel-body'>" + comment.Text + "</div>";
+                
+                if(divElement.childNodes.length > 0)
+                    divElement.insertBefore(newElement, divElement.firstChild);
+                else
+                    divElement.appendChild(newElement);
+
+                document.getElementById('comment').value = "";
+
+                document.getElementById('comment').value = "";
+                
+            }
+        }
+        xmlhttp.open("POST", action);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("video=" + video +"&comment="+document.getElementById('comment').value);
+    }
+
+    function subscribe(user, action) {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var element = document.getElementById("subscribe");
+
+                if (element.innerText == "Subscribe")
+                    element.innerText = "Unsubscribe";
+                else
+                    element.innerText = "Subscribe";
+            }
+        }
+        xmlhttp.open("POST", action);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("user=" + user);
+    }
+
+</script>
+
+<script>
+    $.fn.timedDisable = function (time) {
+        if (time == null) {
+            time = 5000;
+        }
+        var seconds = Math.ceil(time / 1000);
+        return $(this).each(function () {
+            $(this).attr('disabled', 'disabled');
+            var disabledElem = $(this);
+            var originalText = this.innerHTML;
+            disabledElem.text(originalText + ' (' + seconds + ')');
+            var interval = setInterval(function () {
+                disabledElem.text(originalText + ' (' + --seconds + ')');
+                if (seconds === 0) {
+                    disabledElem.removeAttr('disabled')
+                        .text(originalText);
+                    clearInterval(interval);
+                }
+            }, 1000);
+        });
+    };
+
+    $(function () {
+        $('#btnContinue').timedDisable();
+    });
+</script>
+
 @{
     ViewBag.Title = "Index";
 }
 
-@Styles.Render("http://vjs.zencdn.net/4.3/video-js.css")
-@Scripts.Render("http://vjs.zencdn.net/4.3/video.js")
+
 
 <h2>@Model.Video.Name</h2>
 
 <br />
+@if (Model.IsAdvertisement)
+{
+    <video id="my_video_1" class="video-js vjs-default-skin" controls
+           preload="auto" width="640" height="264" poster="@Model.Video.PosterPath"
+           data-setup='{"controls":false, "autoplay":true}'>
+        <source src="@Model.Video.VideoPath" type='video/mp4'>
+    </video>
 
-<video id="my_video_1" class="video-js vjs-default-skin" controls
-       preload="auto" width="640" height="264" poster="@Model.Video.PosterPath"
-       data-setup="{}">
-    <source src="@Model.Video.VideoPath" type='video/mp4'>
-</video>
+    using (Html.BeginForm("SkipAds", "VideoVisualization", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <input type="hidden" class="form-control" name="videoID" value="@Model.Video.ID" />
+        <button id='btnContinue' class="btn btn-default" type="submit">Skip Ads</button>
+    }
+}
+else
+{
+    <video id="my_video_1" class="video-js vjs-default-skin" controls
+           preload="auto" width="640" height="264" poster="@Model.Video.PosterPath"
+           data-setup="{}">
+        <source src="@Model.Video.VideoPath" type='video/mp4'>
+    </video>
 
-<br />
-<div style="margin-left:15px">
-    <p><strong>Visualizations:</strong> @Model.Video.Visualizations</p>
-    <p style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.TotalLikes <span style="color: red; margin-left:15px" class="glyphicon glyphicon-thumbs-down"> @Model.TotalDislikes</span></p>
 
     <br />
+    <div style="margin-left: 20px">
+        <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", null, null)  
+            <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick=" subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> </h4>
+    
+        <p><strong>Visualizations:</strong> @Model.Video.Visualizations</p>
+    
+        <p>
+            <button type="button" onclick="likes(@Model.Video.ID, '@Url.Action("UpdateLikes", "VideoVisualization")', true)" class="btn btn-link">
+                <span style="color: green;" onmouseover=" this.style.fontWeight = 'bold' "
+                      onmouseout=" this.style.fontWeight = 'normal' " class="glyphicon glyphicon-thumbs-up"></span>
+            </button> 
+            <span id="totalLikes" style="color: green;"> @Model.TotalLikes </span>
 
-    @foreach (VVS_System.Models.Comment c in @Model.Comments)
-    {
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><strong>@c.User.Name</strong> <small>[@c.Date.ToString("dd MM yyyy HH:mm:ss")]</small></h3>
+            <button style="margin-left: 25px" type="button" onclick=" likes(@Model.Video.ID, '@Url.Action("UpdateLikes", "VideoVisualization")', false) " class="btn btn-link">
+                <span style="color: red;" onmouseover=" this.style.fontWeight = 'bold' "
+                      onmouseout=" this.style.fontWeight = 'normal' " class=" glyphicon glyphicon-thumbs-down"></span>
+            </button>
+            <span id ="totalDislikes" style="color: red;"> @Model.TotalDislikes </span>
+        </p>
+
+        <br />
+
+        @if (Model.Video.AllowComments)
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Add Comment</strong> <span style="margin-left: 10px" class="glyphicon glyphicon-pencil"></span></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <textarea id="comment" cols="80" rows="3" style="resize: none; max-width: 100%"></textarea>
+                        <button style="margin: 25px; width: 70px;" type="button" onclick=" addComment(@Model.Video.ID, '@Url.Action("AddComment", "VideoVisualization")') " class="btn btn-success">Post</button>
+                    </div>
+                </div>
             </div>
-            <div class="panel-body">
-                @c.Text
-            </div>
+        }
+
+
+        <div id="comments">
+
+            @foreach (VVS_System.Models.Comment c in @Model.Comments)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>@c.User.Name</strong> <small> [@c.FormatDate]</small></h3>
+                    </div>
+                    <div class="panel-body">
+                        @c.Text
+                    </div>
+                </div>
+            }
+
         </div>
-    }
-</div>
+    </div>
+}

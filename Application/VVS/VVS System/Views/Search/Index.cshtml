@@ -50,7 +50,7 @@
             <p style="margin-left:10px"><strong>Visualizations:</strong> @v.Video.Visualizations</p>
             <p style="color: green; margin-left:15px"><span class="glyphicon glyphicon-thumbs-up"></span> @v.TotalLikes</p>
             <p style="color: red; margin-left:15px"><span class="glyphicon glyphicon-thumbs-down"></span> @v.TotalDislikes</p>
-            <p>@Html.ActionLink("Watch Video", "Index", "VideoVisualization", new { video = @v.Video.ID }, new { @class = "btn btn-default" })</p>
+            <p>@Html.ActionLink("Watch Video", "Advertisement", "VideoVisualization", new { video = @v.Video.ID }, new { @class = "btn btn-default" })</p>
             <p></p>
         </div><!-- /.col-lg-4 -->
     }

@@ -48,14 +48,14 @@ namespace VVS_System.Models
         {
             _videos = new Dictionary<int, Video>();
             _videos.Add(0, new Video(0, "Audi 2013 Commercial", "../Content/Videos/Audi_2013_Commercial.mp4", "../Content/Videos/Posters/Audi_2013_Commercial.png", _users[1], true, true));
-            _videos.Add(1, new Video(1, "Coke 2012 Commercial", "../Content/Videos/Coke_2012_Commercial.mp4", "../Content/Videos/Posters/Coke_2012_Commercial.png", _users[0], false, false));
+            _videos.Add(1, new Video(1, "Coke 2012 Commercial", "../Content/Videos/Coke_2012_Commercial.mp4", "../Content/Videos/Posters/Coke_2012_Commercial.png", _users[0], false, true));
             _videos.Add(2, new Video(2, "Heineken Commercial", "../Content/Videos/Heineken_Commercial.mp4", "../Content/Videos/Posters/Heineken_Commercial.png", _users[3], false, true));
             _videos.Add(3, new Video(3, "Hyundai Veloster Commercial", "../Content/Videos/Hyundai_Veloster_Commercial.mp4", "../Content/Videos/Posters/Hyundai_Veloster_Commercial.png", _users[0], false, true));
             _videos.Add(4, new Video(4, "M&M's Commercial", "../Content/Videos/MMs_Commercial.mp4", "../Content/Videos/Posters/MMs_Commercial.png", _users[4], false, true));
             _videos.Add(5, new Video(5, "Nintendo 3DS Luigi's Mansion Commercial", "../Content/Videos/Nintendo_3DS_Luigi's_Mansion_Commercial.mp4", "../Content/Videos/Posters/Nintendo_3DS Luigi's_Mansion_Commercial.png", _users[4], false, true));
             _videos.Add(6, new Video(6, "Turkish Airlines Commercial", "../Content/Videos/Turkish_Airlines_Commercial.mp4", "../Content/Videos/Posters/Turkish_Airlines_Commercial.png", _users[1], false, false));
             _videos.Add(7, new Video(7, "Volkswagen 2012 Commercial", "../Content/Videos/Volkswagen_2012_Commercial.mp4", "../Content/Videos/Posters/Volkswagen_2012_Commercial.png", _users[3], true, false));
-            _videos.Add(8, new Video(8, "VW Passat 2011 Commercial", "../Content/Videos/VW_Passat_2011_Commercial.mp4", "../Content/Videos/Posters/VW_Passat_2011_Commercial.mp4", _users[1], false, true));
+            _videos.Add(8, new Video(8, "VW Passat 2011 Commercial", "../Content/Videos/VW_Passat_2011_Commercial.mp4", "../Content/Videos/Posters/VW_Passat_2011_Commercial.png", _users[1], false, true));
         }
 
         private void CreateUsers()
@@ -66,6 +66,9 @@ namespace VVS_System.Models
             _users.Add(2, new User(2, "Né Né"));
             _users.Add(3, new User(3, "Cebolas"));
             _users.Add(4, new User(4, "Samurai"));
+            _users.Add(5, new User(5, "Dummy"));
+
+            _users[5].UpdateSubscrition(_users[1]);
 
         }
 
@@ -81,8 +84,8 @@ namespace VVS_System.Models
 
             while (size > 0)
             {
-                int num = r.Next(_videos.Count()-1);
-                if (!recommended.Contains(_videos[num]))
+                int num = r.Next(_videos.Count());
+                if (!recommended.Contains(_videos[num]) && !_videos[num].IsPrivate)
                 {
                     recommended.Add(_videos[num]);
                     size--;
@@ -103,7 +106,7 @@ namespace VVS_System.Models
 
         private IEnumerable<Video> getVideos(string search)
         {
-            return _videos.Values.Where(v => v.Name.ToUpper().Contains(search.ToUpper()));
+            return _videos.Values.Where(v => v.Name.ToUpper().Contains(search.ToUpper()) && !v.IsPrivate);
         }
 
         public string [] getVideosNames(string search)
@@ -125,6 +128,17 @@ namespace VVS_System.Models
             return _likes.Where(l => l.Video.Equals(v) && l.LikeType == LikeType.DISLIKE).Count();
         }
 
+        public String UpdateLikes(int video, int user, bool isLike)
+        {
+            Like l = new Like(_users[user], _videos[video], !isLike?LikeType.LIKE:LikeType.DISLIKE);
+            if (_likes.Contains(l))
+                _likes.Remove(l);
+                
+            _likes.Add(new Like(_users[user], _videos[video], isLike?LikeType.LIKE:LikeType.DISLIKE));
+            
+            return getTotalLikes(_videos[video]) + ";" + getTotalDislikes(_videos[video]);
+        }
+
 
         /**********************************************************************************************************/
         /*** COMMENT UTIL *****************************************************************************************/
@@ -140,6 +154,27 @@ namespace VVS_System.Models
             return _comments.Where(c => c.User.Equals(u)).OrderByDescending(c => c.Date);
         }
 
+        public Comment AddComment(int video, int user, String comment)
+        {
+            Comment c = new Comment(_users[user], _videos[video], comment, DateTime.Now);
+            _comments.Add(c);
+            return c;
+        }
+
+        /**********************************************************************************************************/
+        /*** USER UTILS *******************************************************************************************/
+        /**********************************************************************************************************/
+
+        public void Subscribe(int channel, int viewer)
+        {
+            _users[viewer].UpdateSubscrition(_users[channel]);
+        }
+
+        public String IsSubscribed(int video, int viewer)
+        {
+            bool c = _videos[video].Owner.Subscribed.Contains(_users[viewer]);
+            return _videos[video].Owner.Subscribed.Contains(_users[viewer])?"Unsubscribe":"Subscribe";
+        }
 
         /**********************************************************************************************************/
         /*** VIDEO MODEL *******************************************************************************************/
@@ -152,17 +187,17 @@ namespace VVS_System.Models
 
             foreach (Video v in vm)
             {
-                list.Add(new VideoModel(v, getTotalLikes(v), getTotalDislikes(v), null));
+                list.Add(new VideoModel(v, getTotalLikes(v), getTotalDislikes(v), null, ""));
             }
 
             return list;
         }
 
-        public VideoModel getVideoModel(int video)
+        public VideoModel getVideoModel(int video, int viewer)
         {
             Video v = getVideo(video);
-            //v.Visualizations++;
-            return new VideoModel(v, getTotalLikes(v), getTotalDislikes(v), getVideoComments(v)); 
+            v.Visualizations++;
+            return new VideoModel(v, getTotalLikes(v), getTotalDislikes(v), getVideoComments(v), IsSubscribed(video, viewer)); 
         }
     }
 }

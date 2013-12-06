@@ -18,15 +18,22 @@ namespace VVS_System.Models
         {
             ID = id;
             Name = name;
+            Subscribed = new List<User>();
+            Subscribe = new List<User>();
         }
 
-        public void AddSubscrition(User u)
+        public void UpdateSubscrition(User u)
         {
-            Subscribe.Add(u);
-            u.Subscribed.Add(this);
+            if (Subscribe.Contains(u))
+            {
+                Subscribe.Remove(u);
+                u.Subscribed.Remove(this);
+            }
+            else
+            {
+                Subscribe.Add(u);
+                u.Subscribed.Add(this);
+            } 
         }
-
-
-
     }
 }
