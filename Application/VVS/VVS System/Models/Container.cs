@@ -243,5 +243,73 @@ namespace VVS_System.Models
 
             }
         }
+
+        /**********************************************************************************************************/
+        /*** USER MODEL *******************************************************************************************/
+        /**********************************************************************************************************/
+
+        public IEnumerable<UserModel> GetUserModel(String search)
+        {
+            IEnumerable<User> um = search == null ? GetRecommendedUsers() : GetUsers(search);
+            List<UserModel> list = new List<UserModel>();
+
+            foreach (User u in um)
+            {
+                list.Add(new UserModel(u, GetUserComments(u), GetUserVideos(u.ID)));
+            }
+
+            return list;
+        }
+
+        private IEnumerable<User> GetUsers(string search)
+        {
+            return _users.Values.Where(v => v.Name.ToUpper().Contains(search.ToUpper()));
+        }
+
+        public UserModel GetUserModel(int user)
+        {
+            User u = GetUser(user);
+            return new UserModel(u, GetUserComments(u), GetUserVideos(user));
+        }
+
+        private IEnumerable<User> GetRecommendedUsers(int size = 6)
+        {
+            Random r = new Random();
+            List<User> recommended = new List<User>();
+
+            while (size > 0)
+            {
+                int num = r.Next(_users.Count());
+                if (!recommended.Contains(_users[num]))
+                {
+                    recommended.Add(_users[num]);
+                    size--;
+                }
+
+            }
+
+            return recommended;
+        }
+
+        private IEnumerable<Video> GetUserVideos(int userId)
+        {
+            List<Video> userVideos = new List<Video>();
+
+            foreach (Video video in _videos.Values)
+            {
+                if (video.Owner.ID == userId)
+                {
+                    userVideos.Add(video);
+                }
+            }
+
+            return userVideos;
+        }
+
+
+        public string[] GetUserNames(string term)
+        {
+            return _users.Values.Select(v => v.Name).Where(v => v.ToUpper().Contains(term.ToUpper())).ToArray();
+        }
     }
 }

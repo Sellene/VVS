@@ -264,10 +264,11 @@
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
     <Content Include="Views\VideoVisualization\Index2.cshtml" />
+    <Content Include="Views\SearchChannel\Index.cshtml" />
+    <Content Include="Views\SearchChannel\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\SearchChannel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

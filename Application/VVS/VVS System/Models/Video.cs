@@ -28,7 +28,7 @@ namespace VVS_System.Models
         {
         }
 
-        public Video(int id, String name, String videoPath, String posterPath, User owner, bool isPrivate, bool allowComments, bool isAdvertisement)
+        public Video(int id, String name, String videoPath, String posterPath, User owner, bool isPrivate, bool allowComments, bool isAdvert)
         {
             ID = id;
             Name = name;
@@ -38,7 +38,7 @@ namespace VVS_System.Models
             Visualizations = 0;
             IsPrivate = isPrivate;
             AllowComments = allowComments;
-            IsAdvertisement = isAdvertisement;
+            IsAdvertisement = isAdvert;
         }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<VVS_System.Models.UserModel>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#search").autocomplete({
+            source: '@Url.Action("Find", "Search")', minChars: 1, delay: 500
+        });
+    });
+</script>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Search Users</h1>
+<br />
+
+@using (Html.BeginForm("Search", "SearchChannel", FormMethod.Post))
+{
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input name="searchKeywords" class="form-control" id="search" type="text" value="I'm looking for..." />
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+}
+
+<br />
+<br />
+<br />
+
+<h2>Recommended</h2>
+<br />
+<div class="row">
+    @foreach (VVS_System.Models.UserModel u in Model)
+    {
+        <div class="col-lg-4" style="margin-bottom:15px">
+            @*<img class="img-thumbnail" style="width: 200px; height: 140px;" src="@u.Video.PosterPath">*@
+            <h4>@u.User.Name</h4>
+            <p style="margin-left:10px"><strong>Videos:</strong> @u.Videos.Count()</p>
+            <p>@Html.ActionLink("View Channel", "Profile", "User", new { user = @u.User.ID }, new { @class = "btn btn-default" })</p>
+            <p></p>
+        </div>
+    }
+</div>

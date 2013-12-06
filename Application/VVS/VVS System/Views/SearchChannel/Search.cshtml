@@ -1,0 +1,22 @@
+﻿@model IEnumerable<VVS_System.Models.UserModel>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h1>Search Results</h1>
+
+<br />
+<div class="row">
+    @foreach (VVS_System.Models.UserModel u in Model)
+    {
+        <div class="col-lg-4" style="margin-bottom:15px">
+            @*<img class="img-thumbnail" style="width: 200px; height: 140px;" src="@u.Video.PosterPath">*@
+            <h4>@u.User.Name</h4>
+            <p style="margin-left:10px"><strong>Videos:</strong> @u.Videos.Count()</p>
+            <p>@Html.ActionLink("View Channel", "Profile", "User", new { user = @u.User.ID }, new { @class = "btn btn-default" })</p>
+            <p></p>
+        </div>
+    }
+</div>
+
