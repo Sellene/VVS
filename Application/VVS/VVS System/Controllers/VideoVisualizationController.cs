@@ -10,13 +10,16 @@ namespace VVS_System.Controllers
 {
     public class VideoVisualizationController : Controller
     {
-       
+
+        public Container Container = Container.GetContainer();
+
+
         public ActionResult Index(int video)
         {
             int dummy = 5;
-
-            Container vs = new Container();
-            return View(vs.getVideoModel(video, dummy));
+            VideoModel vm = Container.GetVideoModel(video, dummy);
+            vm.Video.Visualizations++;
+            return View(vm);
         }
 
 
@@ -24,16 +27,14 @@ namespace VVS_System.Controllers
         {
             int dummy = 5;
 
-            Container vs = new Container();
-            return Json(vs.UpdateLikes(video, dummy, isLike), JsonRequestBehavior.AllowGet);
+            return Json(Container.UpdateLikes(video, dummy, isLike), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddComment(int video, String comment)
         {
             int dummy = 5;
 
-            Container vs = new Container();
-            Comment c = vs.AddComment(video, dummy, comment);
+            Comment c = Container.AddComment(video, dummy, comment);
             return Json(new { UserName = c.User.Name, Text = c.Text, Date = c.Date.ToString("dd/MM/yyyy HH:mm:ss") }, JsonRequestBehavior.AllowGet);
         }
 
@@ -41,21 +42,13 @@ namespace VVS_System.Controllers
         {
             int dummy = 5;
 
-            Container vs = new Container();
-            vs.Subscribe(user, dummy);
+            Container.Subscribe(user, dummy);
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Advertisement(int video)
         {
-            Container vs = new Container();
-
-            int dummy = 5;
-
-            //MANDAR PUBLICIDADE AKI
-            VideoModel videoModel = vs.getVideoModel(video,dummy);
-            videoModel.IsAdvertisement = true;
-            return View("Index",videoModel);
+            return View("Index",Container.GetAdvertisement(video));
         }
 
         public ActionResult SkipAds(int videoID)
