@@ -10,7 +10,7 @@
 
     #dragandrophandler {
         border: 2px dashed #92AAB0;
-        width: 650px;
+        width: 700px;
         height: 200px;
         color: #92AAB0;
         text-align: center;
@@ -18,6 +18,19 @@
         padding: 10px 0px 10px 10px;
         font-size: 200%;
         display: table-cell;
+    }
+
+    #Out {
+        border: 2px dashed #92AAB0;
+        width: 700px;
+        height: 200px;
+        color: white;
+        text-align: center;
+        vertical-align: middle;
+        padding: 10px 0px 10px 10px;
+        font-size: 200%;
+        display: table-cell;
+        background-color: gray;
     }
 
     .progressBar {
@@ -114,6 +127,9 @@
             data: formData,
             success: function (data) {
                 status.setProgress(100);
+                var elem = document.getElementById("dragandrophandler");
+                elem.setAttribute("id", "Out");
+                elem.innerHTML = "Uploaded!";
             }
         });
 
