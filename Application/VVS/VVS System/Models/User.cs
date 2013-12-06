@@ -14,12 +14,15 @@ namespace VVS_System.Models
         
         public List<User> Subscribed { get; set; } // B is subcribed por A
 
+        public List<Video> Favourites { get; set; }
+
         public User(int id, String name)
         {
             ID = id;
             Name = name;
             Subscribed = new List<User>();
             Subscribe = new List<User>();
+            Favourites = new List<Video>();
         }
 
         public void UpdateSubscrition(User u)

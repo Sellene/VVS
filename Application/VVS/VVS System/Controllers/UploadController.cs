@@ -37,7 +37,7 @@ namespace VVS_System.Controllers
             if (file.ContentType.Contains("video"))
             {
                 videoPath = Server.MapPath("..\\Content\\Videos") + "\\" + file.FileName;
-                videoGlobal.VideoPath = videoPath;
+                videoGlobal.VideoPath = "..//Content//Videos//" + file.FileName;
                 System.IO.File.WriteAllBytes(videoPath, ReadData(file.InputStream));
 
                 //Gerar Thumbnail
@@ -84,8 +84,9 @@ namespace VVS_System.Controllers
                 MemoryStream ms = new MemoryStream();
                 encoder.Save(ms);
 
-                imagePath = Path.ChangeExtension(Server.MapPath("..\\Content\\Videos\\Posters") + "\\" + file.FileName,
-                    "png");
+                imagePath = Path.ChangeExtension(Server.MapPath("..\\Content\\Videos\\Posters") + "\\" + file.FileName,"png");
+                videoGlobal.PosterPath = Path.ChangeExtension("..//Content//Videos//Posters//" + file.FileName, "png");
+
                 using (FileStream myFile = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
                 {
                     ms.WriteTo(myFile);
