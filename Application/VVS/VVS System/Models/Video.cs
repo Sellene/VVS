@@ -14,8 +14,6 @@ namespace VVS_System.Models
 
         public String PosterPath { get; set; }
 
-        //public IEnumerable<String> Tags { get; set; }
-
         public User Owner { get; set; }
 
         public int Visualizations { get; set; }
@@ -24,11 +22,13 @@ namespace VVS_System.Models
 
         public bool AllowComments { get; set; }
 
+        public bool IsAdvertisement { get; set; }
+
         public Video()
         {
         }
 
-        public Video(int id, String name, String videoPath, String posterPath, User owner, bool isPrivate, bool allowComments)
+        public Video(int id, String name, String videoPath, String posterPath, User owner, bool isPrivate, bool allowComments, bool isAdvertisement)
         {
             ID = id;
             Name = name;
@@ -38,6 +38,7 @@ namespace VVS_System.Models
             Visualizations = 0;
             IsPrivate = isPrivate;
             AllowComments = allowComments;
+            IsAdvertisement = isAdvertisement;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace VVS_System.Controllers
         private const string TempPath = @"C:\Temp";
         private static Video videoGlobal;
 
+        public Container Container = Container.GetContainer();
+
         public ActionResult Index()
         {
             videoGlobal = new Video();
@@ -99,16 +101,14 @@ namespace VVS_System.Controllers
         {
             int dummy = 5;
             
-            Container c = new Container();
-
             videoGlobal.Name = videoInfo.Name;
             videoGlobal.IsPrivate = videoInfo.IsPrivate;
             videoGlobal.AllowComments = videoInfo.AllowComments;
-            videoGlobal.Owner = c.GetUser(dummy);
+            videoGlobal.Owner = Container.GetUser(dummy);
 
-            c.AddVideo(videoGlobal);
+            Container.AddVideo(videoGlobal);
 
-            return View("Index");
+            return RedirectToAction("Index", "VideoVisualization", new {video = videoGlobal.ID});
         }
 
         private byte[] ReadData(Stream stream)

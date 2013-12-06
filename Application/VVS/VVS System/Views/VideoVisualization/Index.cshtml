@@ -133,7 +133,7 @@
 
     using (Html.BeginForm("SkipAds", "VideoVisualization", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
-        <input type="hidden" class="form-control" name="videoID" value="@Model.Video.ID" />
+        <input type="hidden" class="form-control" name="videoID" value="@Model.VideoToShow" />
         <button id='btnContinue' class="btn btn-default" type="submit">Skip Ads</button>
     }
 }
@@ -149,20 +149,20 @@ else
     <br />
     <div style="margin-left: 20px">
         <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", null, null)  
-            <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick=" subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> </h4>
+            <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick="subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> </h4>
     
         <p><strong>Visualizations:</strong> @Model.Video.Visualizations</p>
     
         <p>
             <button type="button" onclick="likes(@Model.Video.ID, '@Url.Action("UpdateLikes", "VideoVisualization")', true)" class="btn btn-link">
                 <span style="color: green;" onmouseover=" this.style.fontWeight = 'bold' "
-                      onmouseout=" this.style.fontWeight = 'normal' " class="glyphicon glyphicon-thumbs-up"></span>
+                      onmouseout="this.style.fontWeight = 'normal' " class="glyphicon glyphicon-thumbs-up"></span>
             </button> 
             <span id="totalLikes" style="color: green;"> @Model.TotalLikes </span>
 
-            <button style="margin-left: 25px" type="button" onclick=" likes(@Model.Video.ID, '@Url.Action("UpdateLikes", "VideoVisualization")', false) " class="btn btn-link">
+            <button style="margin-left: 25px" type="button" onclick="likes(@Model.Video.ID, '@Url.Action("UpdateLikes", "VideoVisualization")', false) " class="btn btn-link">
                 <span style="color: red;" onmouseover=" this.style.fontWeight = 'bold' "
-                      onmouseout=" this.style.fontWeight = 'normal' " class=" glyphicon glyphicon-thumbs-down"></span>
+                      onmouseout="this.style.fontWeight = 'normal'" class=" glyphicon glyphicon-thumbs-down"></span>
             </button>
             <span id ="totalDislikes" style="color: red;"> @Model.TotalDislikes </span>
         </p>
@@ -178,7 +178,7 @@ else
                 <div class="panel-body">
                     <div class="input-group">
                         <textarea id="comment" cols="80" rows="3" style="resize: none; max-width: 100%"></textarea>
-                        <button style="margin: 25px; width: 70px;" type="button" onclick=" addComment(@Model.Video.ID, '@Url.Action("AddComment", "VideoVisualization")') " class="btn btn-success">Post</button>
+                        <button style="margin: 25px; width: 70px;" type="button" onclick="addComment(@Model.Video.ID, '@Url.Action("AddComment", "VideoVisualization")') " class="btn btn-success">Post</button>
                     </div>
                 </div>
             </div>
