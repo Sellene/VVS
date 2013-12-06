@@ -114,8 +114,6 @@
             data: formData,
             success: function (data) {
                 status.setProgress(100);
-
-                $("#status1").append("File upload Done<br>");
             }
         });
 
@@ -212,9 +210,8 @@
 </script>
 
 <legend>Upload your video</legend>
-<div id="dragandrophandler">Drag & Drop Files Here</div>
+<div id="dragandrophandler">Drag & Drop Your Video Here</div>
 <br><br>
-<div id="status1"></div>
 
 @using (Html.BeginForm("SendInfo", "Upload", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
     {

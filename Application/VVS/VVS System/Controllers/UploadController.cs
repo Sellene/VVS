@@ -38,13 +38,15 @@ namespace VVS_System.Controllers
                 videoGlobal.VideoPath = videoPath;
                 System.IO.File.WriteAllBytes(videoPath, ReadData(file.InputStream));
 
-                System.Threading.Thread.Sleep(2 * 1000);
-                //VERIFICAR SE O VIDEO JA ESTA ESCRITO
-
                 //Gerar Thumbnail
                 MediaPlayer player = new MediaPlayer { Volume = 0, ScrubbingEnabled = true };
-                player.Open(new Uri(videoPath));
-                player.Pause();
+                
+                while (player.NaturalVideoHeight == 0)
+                {
+                    player.Open(new Uri(videoPath));
+                    player.Pause(); 
+                }
+                
                 int videoHeight = player.NaturalVideoHeight;
                 int videoWidth = player.NaturalVideoWidth;
                 Duration videoDuration = player.NaturalDuration;
@@ -95,11 +97,16 @@ namespace VVS_System.Controllers
 
         public ActionResult SendInfo(Video videoInfo)
         {
+            int dummy = 5;
+            
+            Container c = new Container();
+
             videoGlobal.Name = videoInfo.Name;
             videoGlobal.IsPrivate = videoInfo.IsPrivate;
             videoGlobal.AllowComments = videoInfo.AllowComments;
+            videoGlobal.Owner = c.GetUser(dummy);
 
-            //TO REGISTER ON CONTAINER
+            c.AddVideo(videoGlobal);
 
             return View("Index");
         }

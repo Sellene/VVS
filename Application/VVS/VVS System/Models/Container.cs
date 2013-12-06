@@ -11,6 +11,7 @@ namespace VVS_System.Models
         private Dictionary<int, User> _users;
         private List<Comment> _comments;
         private List<Like> _likes;
+        private int _idxVideos;
 
         public Container()
         {
@@ -56,6 +57,7 @@ namespace VVS_System.Models
             _videos.Add(6, new Video(6, "Turkish Airlines Commercial", "../Content/Videos/Turkish_Airlines_Commercial.mp4", "../Content/Videos/Posters/Turkish_Airlines_Commercial.png", _users[1], false, false));
             _videos.Add(7, new Video(7, "Volkswagen 2012 Commercial", "../Content/Videos/Volkswagen_2012_Commercial.mp4", "../Content/Videos/Posters/Volkswagen_2012_Commercial.png", _users[3], true, false));
             _videos.Add(8, new Video(8, "VW Passat 2011 Commercial", "../Content/Videos/VW_Passat_2011_Commercial.mp4", "../Content/Videos/Posters/VW_Passat_2011_Commercial.png", _users[1], false, true));
+            _idxVideos = 9;
         }
 
         private void CreateUsers()
@@ -112,6 +114,11 @@ namespace VVS_System.Models
         public string [] getVideosNames(string search)
         {
             return _videos.Values.Select(v => v.Name).Where(v => v.ToUpper().Contains(search.ToUpper())).ToArray();
+        }
+
+        public void AddVideo(Video video)
+        {
+            _videos.Add(_idxVideos++, video);
         }
 
         /**********************************************************************************************************/
@@ -172,8 +179,12 @@ namespace VVS_System.Models
 
         public String IsSubscribed(int video, int viewer)
         {
-            bool c = _videos[video].Owner.Subscribed.Contains(_users[viewer]);
             return _videos[video].Owner.Subscribed.Contains(_users[viewer])?"Unsubscribe":"Subscribe";
+        }
+
+        public User GetUser(int userId)
+        {
+            return _users[userId];
         }
 
         /**********************************************************************************************************/
