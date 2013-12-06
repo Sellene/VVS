@@ -46,6 +46,14 @@ namespace VVS_System.Controllers
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Favourite(int video)
+        {
+            int dummy = 5;
+
+            Container.AddVideoToFavourites(video, dummy);
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Advertisement(int video)
         {
             return View("Index",Container.GetAdvertisement(video));

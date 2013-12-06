@@ -74,15 +74,49 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var element = document.getElementById("subscribe");
 
-                if (element.innerText == "Subscribe")
-                    element.innerText = "Unsubscribe";
-                else
-                    element.innerText = "Subscribe";
+                if (element.innerText == "Subscribe" || element.textContent == "Subscribe"){
+                    if ((element.textContent) && (typeof (element.textContent) != "undefined")) {
+                        element.textContent = "Unsubscribe";
+                    } 
+                    else {
+                        element.innerText = "Unsubscribe";
+                    }
+                }
+                    
+                else{
+                    if ((element.textContent) && (typeof (element.textContent) != "undefined")) {
+                        element.textContent = "Subscribe";
+                    }
+                    else {
+                        element.innerText = "Subscribe";
+                    }
+                }           
             }
         }
         xmlhttp.open("POST", action);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.send("user=" + user);
+    }
+
+    function favourite(video, action) {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var element = document.getElementById("favourite");
+
+                element.innerHTML = "<span class='glyphicon glyphicon-star'></span> Favourite";
+                element.disabled = true;
+            }
+        }
+        xmlhttp.open("POST", action);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("video=" + video);
     }
 
 </script>
@@ -149,7 +183,12 @@ else
     <br />
     <div style="margin-left: 20px">
         <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", null, null)  
-            <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick="subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> </h4>
+            <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick="subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> 
+            <button id="favourite" style="margin-left: 20px; font-weight:bold" type="button" onclick="favourite(@Model.Video.ID, '@Url.Action("Favourite")') " class="btn btn-warning">
+                <span class="glyphicon glyphicon-star"></span> Add to favourites</button> 
+        
+        </h4>
+
     
         <p><strong>Visualizations:</strong> @Model.Video.Visualizations</p>
     
