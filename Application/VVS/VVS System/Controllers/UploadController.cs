@@ -38,6 +38,7 @@ namespace VVS_System.Controllers
                 videoGlobal.VideoPath = videoPath;
                 System.IO.File.WriteAllBytes(videoPath, ReadData(file.InputStream));
 
+                System.Threading.Thread.Sleep(2 * 1000);
                 //VERIFICAR SE O VIDEO JA ESTA ESCRITO
 
                 //Gerar Thumbnail

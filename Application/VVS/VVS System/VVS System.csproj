@@ -43,11 +43,8 @@
   <ItemGroup>
     <Reference Include="Interop.DexterLib, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>bin\Interop.DexterLib.dll</HintPath>
-    </Reference>
-    <Reference Include="JockerSoft.Media">
-      <HintPath>..\..\..\..\..\..\Downloads\JockerSoft.Media.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\Downloads\Interop.DexterLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
