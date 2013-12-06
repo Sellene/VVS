@@ -5,51 +5,53 @@
 }
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../../Content/ImageUpload.css">
 <style>
+
     #dragandrophandler {
-        bvideo: 2px dotted #0B85A1;
-        width: 400px;
+        border: 2px dashed #92AAB0;
+        width: 650px;
         height: 200px;
         color: #92AAB0;
-        text-align: left;
+        text-align: center;
         vertical-align: middle;
-        padding: 10px 10px 10 10px;
-        margin-bottom: 10px;
+        padding: 10px 0px 10px 10px;
         font-size: 200%;
+        display: table-cell;
     }
 
     .progressBar {
         width: 200px;
         height: 22px;
-        bvideo: 1px solid #ddd;
-        bvideo-radius: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         overflow: hidden;
         display: inline-block;
         margin: 0px 10px 5px 5px;
         vertical-align: top;
     }
 
-        .progressBar div {
-            height: 100%;
-            color: #fff;
-            text-align: right;
-            line-height: 22px; /* same as #progressBar height if we want text middle aligned */
-            width: 0;
-            background-color: #0ba1b5;
-            bvideo-radius: 3px;
-        }
+    .progressBar div {
+        height: 100%;
+        color: #fff;
+        text-align: right;
+        line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+        width: 0;
+        background-color: #0ba1b5;
+        border-radius: 3px;
+    }
 
     .statusbar {
-        bvideo-top: 1px solid #A9CCD1;
+        border-top: 1px solid #A9CCD1;
         min-height: 25px;
         width: 700px;
         padding: 10px 10px 0px 10px;
         vertical-align: top;
     }
 
-        .statusbar:nth-child(odd) {
-            background: #EBEFF0;
-        }
+    .statusbar:nth-child(odd) {
+        background: #EBEFF0;
+    }
 
     .filename {
         display: inline-block;
@@ -68,9 +70,9 @@
 
     .abort {
         background-color: #A8352F;
-        -moz-bvideo-radius: 4px;
-        -webkit-bvideo-radius: 4px;
-        bvideo-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
         display: inline-block;
         color: #fff;
         font-family: arial;
@@ -81,9 +83,8 @@
         vertical-align: top;
     }
 </style>
-<div id="dragandrophandler">Drag & Drop Files Here</div>
-<br><br>
-<div id="status1"></div>
+
+
 <script>
     function sendFileToServer(formData, status) {
         var uploadURL = '@Url.Action("UploadFiles", "Upload")'; //Upload URL
@@ -178,7 +179,7 @@
         obj.on('dragenter', function (e) {
             e.stopPropagation();
             e.preventDefault();
-            $(this).css('bvideo', '2px solid #0B85A1');
+            $(this).css('border', '2px solid #0B85A1');
         });
         obj.on('dragover', function (e) {
             e.stopPropagation();
@@ -186,7 +187,7 @@
         });
         obj.on('drop', function (e) {
 
-            $(this).css('bvideo', '2px dotted #0B85A1');
+            $(this).css('border', '2px dotted #0B85A1');
             e.preventDefault();
             var files = e.originalEvent.dataTransfer.files;
 
@@ -200,7 +201,7 @@
         $(document).on('dragover', function (e) {
             e.stopPropagation();
             e.preventDefault();
-            obj.css('bvideo', '2px dotted #0B85A1');
+            obj.css('border', '2px dotted #0B85A1');
         });
         $(document).on('drop', function (e) {
             e.stopPropagation();
@@ -210,31 +211,42 @@
     });
 </script>
 
-<form action="" method="post" id="videoForm">
-    <fieldset class="no-legend">
-        <legend>Fill the following information:</legend>
-        <ol>
-            <li class="name">
-                <label for="videoName">Video Name: </label>
-                @Html.TextBoxFor(m => m.Name)
-            </li>
-            <li class="privacy">
-                <label for="videoPrivacy">Is your video private?</label>
+<legend>Upload your video</legend>
+<div id="dragandrophandler">Drag & Drop Files Here</div>
+<br><br>
+<div id="status1"></div>
+
+@using (Html.BeginForm("SendInfo", "Upload", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+    {
+        <fieldset class="no-legend">
+            <legend>Fill the video information</legend>
+
+            <div class="name">
+                <label for="videoName" class="col-md-2 control-label">Video Name: </label>
+                @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+            </div>
+
+            <div class="form-group">
+                <label for="videoPrivacy" class="col-md-2 control-label">Is your video private?</label>
                 <div class="editor-field">
                     @Html.RadioButtonFor(m => m.IsPrivate, true) Yes
-                    @Html.RadioButtonFor(m => m.IsPrivate, false ) No
+                    @Html.RadioButtonFor(m => m.IsPrivate, false) No
                 </div>
-            </li>
-            @*<li class="comments">
-                <label for="videoComments">Do you want to allow comments from other users?</label>
-                <asp:RadioButton ID="rdoButton1C" GroupName="Comments" Text="Yes" Value="Yes" runat="server" OnCheckedChanged="Comments_CheckedChanged" AutoPostBack="true" />
-                <asp:RadioButton ID="rdoButton2C" GroupName="Comments" Text="No" Value="No" runat="server" OnCheckedChanged="Comments_CheckedChanged" AutoPostBack="true" />
-            </li>*@
-        </ol>
+            </div>
 
-        <p class="actions">
-            <input type="hidden" name="ProductId" value="" />
-            <input type="submit" value="Send information" />
-        </p>
-    </fieldset>
-</form>
+            <div class="form-group">
+                <label for="videoComments" class="col-md-2 control-label">Do you want to allow comments from other users?</label>
+                <div class="editor-field">
+                    @Html.RadioButtonFor(m => m.AllowComments, true) Yes
+                    @Html.RadioButtonFor(m => m.AllowComments, false) No
+                </div>
+            </div>
+            
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-default" value="Save info" />
+                    </div>
+                </div>
+
+</fieldset>
+    }

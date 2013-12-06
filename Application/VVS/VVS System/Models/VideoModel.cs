@@ -9,6 +9,8 @@ namespace VVS_System.Models
     {
         public Video Video { get; set; }
 
+        public bool IsAdvertisement { get; set; }
+
         public int TotalLikes { get; set; }
 
         public int TotalDislikes { get; set; }

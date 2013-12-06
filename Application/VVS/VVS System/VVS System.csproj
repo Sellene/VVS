@@ -41,7 +41,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.DexterLib, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>bin\Interop.DexterLib.dll</HintPath>
+    </Reference>
+    <Reference Include="JockerSoft.Media">
+      <HintPath>..\..\..\..\..\..\Downloads\JockerSoft.Media.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -51,6 +61,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -107,6 +118,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -182,6 +194,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ImageUpload.css" />
     <Content Include="Content\Videos\Audi_2013_Commercial.mp4" />
     <Content Include="Content\Videos\Coke_2012_Commercial.mp4" />
     <Content Include="Content\Videos\Heineken_Commercial.mp4" />
@@ -201,10 +214,12 @@
     <Content Include="Content\Videos\Hyundai_Veloster_Commercial.mp4" />
     <Content Include="Content\Videos\Volkswagen_2012_Commercial.mp4" />
     <Content Include="Content\Videos\VW_Passat_2011_Commercial.mp4" />
+    <Content Include="Content\VideoUpload.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="JockerSoft.Media.dll" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -249,6 +264,7 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
+    <Content Include="Views\VideoVisualization\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -260,6 +276,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

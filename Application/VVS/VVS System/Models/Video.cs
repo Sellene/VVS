@@ -24,6 +24,10 @@ namespace VVS_System.Models
 
         public bool AllowComments { get; set; }
 
+        public Video()
+        {
+        }
+
         public Video(int id, String name, String videoPath, String posterPath, User owner, bool isPrivate, bool allowComments)
         {
             ID = id;
