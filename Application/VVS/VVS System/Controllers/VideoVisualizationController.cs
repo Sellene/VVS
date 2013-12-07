@@ -16,8 +16,14 @@ namespace VVS_System.Controllers
 
         public ActionResult Index(int video)
         {
-            int dummy = 5;
-            VideoModel vm = Container.GetVideoModel(video, dummy);
+            int id = -1;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                id = Container.GetUser(User.Identity.Name).ID;
+            }
+
+            VideoModel vm = Container.GetVideoModel(video, id);
             vm.Video.Visualizations++;
             return View(vm);
         }
@@ -25,32 +31,44 @@ namespace VVS_System.Controllers
 
         public ActionResult UpdateLikes(int video, bool isLike)
         {
-            int dummy = 5;
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new{url = Url.Action("Login", "Account")}, JsonRequestBehavior.AllowGet);
+            }
 
-            return Json(Container.UpdateLikes(video, dummy, isLike), JsonRequestBehavior.AllowGet);
+            return Json(Container.UpdateLikes(video, Container.GetUser(User.Identity.Name).ID, isLike), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddComment(int video, String comment)
         {
-            int dummy = 5;
-
-            Comment c = Container.AddComment(video, dummy, comment);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { url = Url.Action("Login", "Account") }, JsonRequestBehavior.AllowGet);
+            }
+            
+            Comment c = Container.AddComment(video, Container.GetUser(User.Identity.Name).ID, comment);
             return Json(new { UserName = c.User.Name, Text = c.Text, Date = c.Date.ToString("dd/MM/yyyy HH:mm:ss") }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Subscribe(int user)
         {
-            int dummy = 5;
-
-            Container.Subscribe(user, dummy);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { url = Url.Action("Login", "Account") }, JsonRequestBehavior.AllowGet);
+            }
+            
+            Container.Subscribe(user, Container.GetUser(User.Identity.Name).ID);
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Favourite(int video)
         {
-            int dummy = 5;
-
-            Container.AddVideoToFavourites(video, dummy);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { url = Url.Action("Login", "Account") }, JsonRequestBehavior.AllowGet);
+            }
+            
+            Container.AddVideoToFavourites(video, Container.GetUser(User.Identity.Name).ID);
             return Json("hi", JsonRequestBehavior.AllowGet);
         }
 

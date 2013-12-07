@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -12,6 +14,7 @@ namespace VVS_System.Models
         private List<Comment> _comments;
         private List<Like> _likes;
         private int _idxVideos;
+        private int _idxUsers;
 
         private static Container _container;
 
@@ -75,14 +78,20 @@ namespace VVS_System.Models
         private void CreateUsers()
         {
             _users = new Dictionary<int, User>();
-            _users.Add(0, new User(0, "Sellene"));
+            _users.Add(0, new User(0, "Ricardo"));
             _users.Add(1, new User(1, "Jonnybravo"));
-            _users.Add(2, new User(2, "Né Né"));
-            _users.Add(3, new User(3, "Cebolas"));
-            _users.Add(4, new User(4, "Samurai"));
-            _users.Add(5, new User(5, "Dummy"));
+            _users.Add(2, new User(2, "Nelson"));
+            _users.Add(3, new User(3, "Bernardo"));
+            _users.Add(4, new User(4, "Gonçalo"));
+            _users.Add(5, new User(5, "Pedro"));
 
+            _idxUsers = 6;
             _users[5].UpdateSubscrition(_users[1]);
+
+            foreach (string s in GetAllUsersFromDB())
+            {
+                _users.Add(_idxUsers, new User(_idxUsers++, s));
+            }
 
         }
 
@@ -207,9 +216,9 @@ namespace VVS_System.Models
             _users[viewer].UpdateSubscrition(_users[channel]);
         }
 
-        public String IsSubscribed(int video, int viewer)
+        public String IsSubscribed(int channel, int viewer)
         {
-            return _videos[video].Owner.Subscribed.Contains(_users[viewer])?"Unsubscribe":"Subscribe";
+            return _users[channel].Subscribed.Contains(_users[viewer])?"Unsubscribe":"Subscribe";
         }
 
         public User GetUser(int userId)
@@ -221,6 +230,33 @@ namespace VVS_System.Models
         {
             _users[user].Favourites.Add(_videos[video]);
         }
+
+        public List<String> GetAllUsersFromDB()
+        {
+            List<String> users = new List<String>();
+
+            SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\v11.0;AttachDbFilename=\"C:\\Users\\Jonnybravo\\Documents\\GitHub\\VVS\\Application\\VVS\\VVS System\\App_Data\\aspnet-VVS System-20131118120259.mdf\";Initial Catalog=\"aspnet-VVS System-20131118120259\";Integrated Security=True");
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT UserName FROM AspNetUsers";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection1;
+
+            sqlConnection1.Open();
+
+            reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                users.Add((String)reader["UserName"]);
+            }
+
+            sqlConnection1.Close();
+
+            return users;
+        } 
+
         /**********************************************************************************************************/
         /*** VIDEO MODEL *******************************************************************************************/
         /**********************************************************************************************************/
@@ -241,7 +277,13 @@ namespace VVS_System.Models
         public VideoModel GetVideoModel(int video, int viewer)
         {
             Video v = GetVideo(video);
-            return new VideoModel(v, GetTotalLikes(v), GetTotalDislikes(v), GetVideoComments(v), IsSubscribed(video, viewer), IsFavourite(video, viewer)); 
+            
+            if (viewer == -1)
+            {
+                return new VideoModel(v, GetTotalLikes(v), GetTotalDislikes(v), GetVideoComments(v), "Subscribe", false); 
+            }
+            
+            return new VideoModel(v, GetTotalLikes(v), GetTotalDislikes(v), GetVideoComments(v), IsSubscribed(v.Owner.ID, viewer), IsFavourite(video, viewer)); 
         }
 
         public VideoModel GetAdvertisement(int video)
@@ -273,7 +315,7 @@ namespace VVS_System.Models
 
             foreach (User u in um)
             {
-                list.Add(new UserModel(u, GetUserComments(u), GetUserVideos(u.ID)));
+                list.Add(new UserModel(u, GetUserComments(u), GetUserVideos(u.ID), null));
             }
 
             return list;
@@ -284,10 +326,14 @@ namespace VVS_System.Models
             return _users.Values.Where(v => v.Name.ToUpper().Contains(search.ToUpper()));
         }
 
-        public UserModel GetUserModel(int user)
+        public UserModel GetUserModel(int user, int viewer)
         {
             User u = GetUser(user);
-            return new UserModel(u, GetUserComments(u), GetUserVideos(user));
+            
+            if(viewer == -1)
+                return new UserModel(u, GetUserComments(u), GetUserVideos(user), "Subscribe");
+
+            return new UserModel(u, GetUserComments(u), GetUserVideos(user), IsSubscribed(user, viewer));
         }
 
         private IEnumerable<User> GetRecommendedUsers(int size = 6)
@@ -328,6 +374,24 @@ namespace VVS_System.Models
         public string[] GetUserNames(string term)
         {
             return _users.Values.Select(v => v.Name).Where(v => v.ToUpper().Contains(term.ToUpper())).ToArray();
+        }
+
+        public User GetUser(string userName)
+        {
+            foreach (User user in _users.Values)
+            {
+                if (user.Name.Equals(userName))
+                {
+                    return user;
+                }
+            }
+
+            return null;
+        }
+
+        public void CreateUser(string userName)
+        {
+            _users.Add(_idxUsers,new User(_idxUsers++, userName));
         }
     }
 }

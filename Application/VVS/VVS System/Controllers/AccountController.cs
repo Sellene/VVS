@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Profile;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -15,6 +17,8 @@ namespace VVS_System.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        public Container Container = Container.GetContainer();
+
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
@@ -46,6 +50,7 @@ namespace VVS_System.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
+
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -83,6 +88,7 @@ namespace VVS_System.Controllers
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
+                    Container.CreateUser(model.UserName);
                     return RedirectToAction("Index", "Home");
                 }
                 else

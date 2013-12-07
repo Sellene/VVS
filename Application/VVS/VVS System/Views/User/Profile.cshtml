@@ -5,8 +5,48 @@
     ViewBag.Title = "title";
 }
 
+<script>
+    function subscribe(user, action) {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var test = JSON.parse(xmlhttp.responseText);
+
+                if (test.url != undefined) {
+                    location.href = test.url;
+                } else {
+                    var element = document.getElementById("subscribe");
+
+                    if (element.innerText == "Subscribe" || element.textContent == "Subscribe") {
+                        if ((element.textContent) && (typeof (element.textContent) != "undefined")) {
+                            element.textContent = "Unsubscribe";
+                        } else {
+                            element.innerText = "Unsubscribe";
+                        }
+                    } else {
+                        if ((element.textContent) && (typeof (element.textContent) != "undefined")) {
+                            element.textContent = "Subscribe";
+                        } else {
+                            element.innerText = "Subscribe";
+                        }
+                    }
+                }
+            }
+        };
+        xmlhttp.open("POST", action);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("user=" + user);
+    }
+</script>
+
 <h2>@Model.User.Name</h2>
-@*<button id="subscribe" style="margin-left: 20px;" type="button" onclick="subscribe(@Model.User.ID, '@Url.Action("Subscribe","VideoVisualization")') " class="btn btn-danger">@Model.Subscription</button>*@ 
+<button id="subscribe" style="margin-left: 20px;" type="button" onclick="subscribe(@Model.User.ID, '@Url.Action("Subscribe","VideoVisualization")') " class="btn btn-danger">@Model.Subscription</button>
 <br/>
 
 <legend>Uploaded videos</legend>

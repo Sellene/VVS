@@ -11,16 +11,18 @@ namespace VVS_System.Controllers
     public class UserController : Controller
     {
         public Container Container = Container.GetContainer();
-        //
-        // GET: /User/
-        public ActionResult Index()
-        {
-            return View();
-        }
+
 
         public ActionResult Profile(int user)
         {
-            return View(Container.GetUserModel(user));
+            int id = -1;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                id = Container.GetUser(User.Identity.Name).ID;
+            }
+
+            return View(Container.GetUserModel(user, id));
         }
 	}
 }

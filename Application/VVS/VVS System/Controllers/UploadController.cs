@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Windows;
@@ -20,6 +21,10 @@ namespace VVS_System.Controllers
 
         public ActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             videoGlobal = new Video();
             return View();
         }
@@ -96,12 +101,10 @@ namespace VVS_System.Controllers
 
         public ActionResult SendInfo(Video videoInfo)
         {
-            int dummy = 5;
-            
             videoGlobal.Name = videoInfo.Name;
             videoGlobal.IsPrivate = videoInfo.IsPrivate;
             videoGlobal.AllowComments = videoInfo.AllowComments;
-            videoGlobal.Owner = Container.GetUser(dummy);
+            videoGlobal.Owner = Container.GetUser(User.Identity.Name);
 
             Container.AddVideo(videoGlobal);
 

@@ -11,11 +11,14 @@ namespace VVS_System.Models
         public IEnumerable<Comment> Comments { get; set; }
         public List<Video> Videos { get; set; }
 
-        public UserModel(User user, IEnumerable<Comment> comment, List<Video> videos)
+        public String Subscription { get; set; }
+
+        public UserModel(User user, IEnumerable<Comment> comment, List<Video> videos, String subscription)
         {
             User = user;
             Comments = comment;
             Videos = videos;
+            Subscription = subscription;
         }
 
 
