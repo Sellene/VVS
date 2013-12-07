@@ -21,13 +21,16 @@ namespace VVS_System.Models
 
         public String Subscription { get; set; }
 
-        public VideoModel(Video v, int likes, int dislikes, IEnumerable<Comment> comment, String subscription)
+        public bool IsFavourite { get; set; }
+
+        public VideoModel(Video v, int likes, int dislikes, IEnumerable<Comment> comment, String subscription, bool isFavourite)
         {
             Video = v;
             TotalLikes = likes;
             TotalDislikes = dislikes;
             Comments = comment;
             Subscription = subscription;
+            IsFavourite = isFavourite;
         }
     }
 }

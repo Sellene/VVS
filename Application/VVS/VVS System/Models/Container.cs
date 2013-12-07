@@ -68,6 +68,8 @@ namespace VVS_System.Models
             _videos.Add(7, new Video(7, "Volkswagen 2012 Commercial", "../Content/Videos/Volkswagen_2012_Commercial.mp4", "../Content/Videos/Posters/Volkswagen_2012_Commercial.png", _users[3], false, false, true));
             _videos.Add(8, new Video(8, "VW Passat 2011 Commercial", "../Content/Videos/VW_Passat_2011_Commercial.mp4", "../Content/Videos/Posters/VW_Passat_2011_Commercial.png", _users[1], false, true, false));
             _idxVideos = 9;
+
+            _users[5].Favourites.Add(_videos[5]);
         }
 
         private void CreateUsers()
@@ -180,6 +182,11 @@ namespace VVS_System.Models
             return c;
         }
 
+        public bool IsFavourite(int video, int viewer)
+        {
+            return _users[viewer].Favourites.Contains(_videos[video]);
+        }
+
         /**********************************************************************************************************/
         /*** USER UTILS *******************************************************************************************/
         /**********************************************************************************************************/
@@ -214,7 +221,7 @@ namespace VVS_System.Models
 
             foreach (Video v in vm)
             {
-                list.Add(new VideoModel(v, GetTotalLikes(v), GetTotalDislikes(v), null, ""));
+                list.Add(new VideoModel(v, GetTotalLikes(v), GetTotalDislikes(v), null, "", false));
             }
 
             return list;
@@ -223,7 +230,7 @@ namespace VVS_System.Models
         public VideoModel GetVideoModel(int video, int viewer)
         {
             Video v = GetVideo(video);
-            return new VideoModel(v, GetTotalLikes(v), GetTotalDislikes(v), GetVideoComments(v), IsSubscribed(video, viewer)); 
+            return new VideoModel(v, GetTotalLikes(v), GetTotalDislikes(v), GetVideoComments(v), IsSubscribed(video, viewer), IsFavourite(video, viewer)); 
         }
 
         public VideoModel GetAdvertisement(int video)
@@ -235,7 +242,7 @@ namespace VVS_System.Models
                 int num = r.Next(_videos.Count());
                 if (_videos[num].IsAdvertisement)
                 {
-                    VideoModel vm = new VideoModel(_videos[num], -1, -1, null, null);
+                    VideoModel vm = new VideoModel(_videos[num], -1, -1, null, null, false);
                     vm.VideoToShow = video;
                     vm.IsAdvertisement = true;
                     return vm;

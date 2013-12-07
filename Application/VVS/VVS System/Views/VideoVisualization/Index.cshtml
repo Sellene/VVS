@@ -184,9 +184,16 @@ else
     <div style="margin-left: 20px">
         <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", null, null)  
             <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick="subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> 
+            
+        @if(!Model.IsFavourite){
             <button id="favourite" style="margin-left: 20px; font-weight:bold" type="button" onclick="favourite(@Model.Video.ID, '@Url.Action("Favourite")') " class="btn btn-warning">
                 <span class="glyphicon glyphicon-star"></span> Add to favourites</button> 
-        
+        }
+        else
+        {
+            <button id="favourite" style="margin-left: 20px; font-weight:bold" type="button" class="btn btn-warning" disabled>
+                <span class="glyphicon glyphicon-star"></span> Favourite</button> 
+        }
         </h4>
 
     
