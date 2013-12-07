@@ -41,11 +41,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.DexterLib, Version=1.0.0.0, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\packages\Interop.Dexterlib\Interop.DexterLib.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
@@ -174,6 +169,7 @@
     <Compile Include="Controllers\SearchChannelController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\VideoVisualizationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -209,7 +205,6 @@
     <Content Include="Content\Videos\Turkish_Airlines_Commercial.mp4" />
     <Content Include="Content\Videos\MMs_Commercial.mp4" />
     <Content Include="Content\Videos\Nintendo_3DS_Luigi%27s_Mansion_Commercial.mp4" />
-    <Content Include="Content\Videos\Posters\cati.png" />
     <Content Include="Content\Videos\Hyundai_Veloster_Commercial.mp4" />
     <Content Include="Content\Videos\Volkswagen_2012_Commercial.mp4" />
     <Content Include="Content\Videos\VW_Passat_2011_Commercial.mp4" />
@@ -218,7 +213,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="JockerSoft.Media.dll" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -266,6 +260,7 @@
     <Content Include="Views\VideoVisualization\Index2.cshtml" />
     <Content Include="Views\SearchChannel\Index.cshtml" />
     <Content Include="Views\SearchChannel\Search.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

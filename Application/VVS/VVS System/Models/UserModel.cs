@@ -9,9 +9,9 @@ namespace VVS_System.Models
     {
         public User User { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
-        public IEnumerable<Video> Videos { get; set; }
+        public List<Video> Videos { get; set; }
 
-        public UserModel(User user, IEnumerable<Comment> comment, IEnumerable<Video> videos)
+        public UserModel(User user, IEnumerable<Comment> comment, List<Video> videos)
         {
             User = user;
             Comments = comment;

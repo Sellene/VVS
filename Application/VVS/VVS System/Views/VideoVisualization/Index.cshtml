@@ -182,7 +182,7 @@ else
 
     <br />
     <div style="margin-left: 20px">
-        <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", null, null)  
+        <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", new{user=Model.Video.Owner.ID}, null)  
             <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick="subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> 
             
         @if(!Model.IsFavourite){

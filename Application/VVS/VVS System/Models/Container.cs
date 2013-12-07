@@ -309,7 +309,7 @@ namespace VVS_System.Models
             return recommended;
         }
 
-        private IEnumerable<Video> GetUserVideos(int userId)
+        private List<Video> GetUserVideos(int userId)
         {
             List<Video> userVideos = new List<Video>();
 
