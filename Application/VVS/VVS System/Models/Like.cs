@@ -26,4 +26,17 @@ namespace VVS_System.Models
             LikeType = like;
         }
     }
+
+    public class LikeCompare : IEqualityComparer<Like> {
+
+        public bool Equals(Like x, Like y)
+        {
+            return x.LikeType == y.LikeType && x.User.ID == y.User.ID && x.Video.ID == y.Video.ID;
+        }
+
+        public int GetHashCode(Like obj)
+        {
+            return obj.GetHashCode();
+        }
+    }
 }

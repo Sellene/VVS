@@ -207,7 +207,7 @@ else
             <span id="totalLikes" style="color: green;"> @Model.TotalLikes </span>
 
             <button style="margin-left: 25px" type="button" onclick="likes(@Model.Video.ID, '@Url.Action("UpdateLikes", "VideoVisualization")', false) " class="btn btn-link">
-                <span style="color: red;" onmouseover=" this.style.fontWeight = 'bold' "
+                <span style="color: red;" onmouseover="this.style.fontWeight = 'bold'"
                       onmouseout="this.style.fontWeight = 'normal'" class=" glyphicon glyphicon-thumbs-down"></span>
             </button>
             <span id ="totalDislikes" style="color: red;"> @Model.TotalDislikes </span>

@@ -51,7 +51,7 @@ namespace VVS_System.Controllers
             int dummy = 5;
 
             Container.AddVideoToFavourites(video, dummy);
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json("hi", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Advertisement(int video)

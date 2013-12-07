@@ -151,12 +151,23 @@ namespace VVS_System.Models
 
         public String UpdateLikes(int video, int user, bool isLike)
         {
-            Like l = new Like(_users[user], _videos[video], !isLike?LikeType.LIKE:LikeType.DISLIKE);
-            if (_likes.Contains(l))
-                _likes.Remove(l);
-                
-            _likes.Add(new Like(_users[user], _videos[video], isLike?LikeType.LIKE:LikeType.DISLIKE));
+            Like inverse = _likes.Find( l => l.User.ID == user && l.Video.ID == video && l.LikeType == (!isLike?LikeType.LIKE:LikeType.DISLIKE));
             
+            Like like = new Like(_users[user], _videos[video], isLike?LikeType.LIKE:LikeType.DISLIKE);
+            
+            if (inverse != null){
+                _likes.Remove(inverse);
+                _likes.Add(like);
+            }
+            else { 
+                bool c = _likes.Contains(like, new LikeCompare());
+
+                if(!_likes.Contains(like, new LikeCompare()))
+                {
+                    _likes.Add(like);
+                }
+            }
+                                      
             return GetTotalLikes(_videos[video]) + ";" + GetTotalDislikes(_videos[video]);
         }
 
@@ -206,7 +217,7 @@ namespace VVS_System.Models
             return _users[userId];
         }
 
-        public void AddVideoToFavourites(int user, int video)
+        public void AddVideoToFavourites(int video, int user)
         {
             _users[user].Favourites.Add(_videos[video]);
         }
