@@ -5,14 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using DexterLib;
 using VVS_System.Models;
-
 namespace VVS_System.Controllers
 {
     public class UploadController : Controller
