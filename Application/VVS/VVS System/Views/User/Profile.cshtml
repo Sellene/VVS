@@ -6,14 +6,16 @@
 }
 
 <h2>@Model.User.Name</h2>
+@*<button id="subscribe" style="margin-left: 20px;" type="button" onclick="subscribe(@Model.User.ID, '@Url.Action("Subscribe","VideoVisualization")') " class="btn btn-danger">@Model.Subscription</button>*@ 
 <br/>
 
-<div>
+<legend>Uploaded videos</legend>
+<div style ="margin-left: 15px">
     <label class="">Number of videos posted: </label>
-    @Html.DisplayTextFor(m => m.Videos.Count(predicate=>true))
+    @Html.DisplayTextFor(m => m.Videos.Count)
 </div>
 
-@if (Model.Videos.Count(predicate => true) != 0)
+@if (Model.Videos.Count != 0)
 {
     <div style="margin-left: 15px">
         <label class="label label-default">List of videos </label>
@@ -26,7 +28,29 @@
     </div>
 }
 
-<div>
+
+<legend>Comments made </legend>
+
+
+<div id="comments">
+
+    @foreach (VVS_System.Models.Comment c in Model.Comments)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>@c.Video.Name</strong> <small> [@c.FormatDate]</small></h3>
+            </div>
+            <div class="panel-body">
+                @c.Text
+            </div>
+        </div>
+    }
+
+</div>
+
+<legend>Subscribed channels</legend>
+
+<div style="margin-left: 15px">
     <label class="">Number of subscribed channels: </label>
     @Html.DisplayTextFor(m => m.User.Subscribe.Count)
 </div>
@@ -44,9 +68,9 @@
     </div>
 }
 
-<br />
+<legend>Subscriptions </legend>
 
-<div>
+<div style="margin-left: 15px">
     <label class="">Number of subscriptions: </label>
     @Html.DisplayTextFor(m => m.User.Subscribed.Count)
 </div>
@@ -64,11 +88,9 @@
     </div>
 }
 
-<br />
+<legend>Favourites</legend>
 
-
-
-<div>
+<div style="margin-left: 15px">
     <label>Number of favourite videos: </label>
     @Html.DisplayTextFor(m => m.User.Favourites.Count)
 </div>
