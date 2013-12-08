@@ -1,22 +1,22 @@
 ﻿@model IEnumerable<VVS_System.Models.UserModel>
 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="../../Content/jquery-ui.css">
+<script src="../../Scripts/jquery-1.9.1.js"></script>
+<script src="../../Scripts/jquery-ui.js"></script>
 
 <script type="text/javascript">
     $(function () {
         $("#search").autocomplete({
-            source: '@Url.Action("Find", "Search")', minChars: 1, delay: 500
+            source: '@Url.Action("Find", "SearchChannel")', minChars: 1, delay: 500
         });
     });
 </script>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Search Channels";
 }
 
-<h1>Search Users</h1>
+<h1>Search Channels</h1>
 <br />
 
 @using (Html.BeginForm("Search", "SearchChannel", FormMethod.Post))
@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="input-group">
-                <input name="searchKeywords" class="form-control" id="search" type="text" value="I'm looking for..." />
+                <input name="searchKeywords" class="form-control" id="search" type="text" onclick="this.value = ''" value="I'm looking for..." />
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-search"></span></button>
                 </span>

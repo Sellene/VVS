@@ -234,8 +234,8 @@ namespace VVS_System.Models
         public List<String> GetAllUsersFromDB()
         {
             List<String> users = new List<String>();
-
-            SqlConnection sqlConnection1 = new SqlConnection("Data Source=(LocalDb)\\v11.0;AttachDbFilename=\"C:\\Users\\Jonnybravo\\Documents\\GitHub\\VVS\\Application\\VVS\\VVS System\\App_Data\\aspnet-VVS System-20131118120259.mdf\";Initial Catalog=\"aspnet-VVS System-20131118120259\";Integrated Security=True");
+            String connectionStr = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            SqlConnection sqlConnection1 = new SqlConnection(connectionStr);
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
