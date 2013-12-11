@@ -2,7 +2,9 @@
 
 @Styles.Render("http://vjs.zencdn.net/4.3/video-js.css")
 @Scripts.Render("http://vjs.zencdn.net/4.3/video.js")
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+<script src="../../Scripts/jquery.min.js"></script>
+
 
 <script>
     function likes(video, action, islike) {
@@ -167,9 +169,8 @@
 </script>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Model.Video.Name";
 }
-
 
 
 <h2>@Model.Video.Name</h2>
@@ -200,9 +201,14 @@ else
 
     <br />
     <div style="margin-left: 20px">
-        <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", new{user=Model.Video.Owner.ID}, null)  
+        <h4>@Html.ActionLink(@Model.Video.Owner.Name, "Profile", "User", new{user=Model.Video.Owner.ID}, null) 
+        @if(User.Identity.IsAuthenticated && Model.Video.Owner.Name.Equals(User.Identity.Name)){
+            <button id="subscribe" style="margin-left: 20px;" type="button" class="btn btn-danger" disabled>@Model.Subscription</button> 
+        }
+        else{
             <button id ="subscribe" style="margin-left: 20px;"  type="button" onclick="subscribe(@Model.Video.Owner.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button> 
-            
+        }
+  
         @if(!Model.IsFavourite){
             <button id="favourite" style="margin-left: 20px; font-weight:bold" type="button" onclick="favourite(@Model.Video.ID, '@Url.Action("Favourite")') " class="btn btn-warning">
                 <span class="glyphicon glyphicon-star"></span> Add to favourites</button> 
@@ -212,6 +218,11 @@ else
             <button id="favourite" style="margin-left: 20px; font-weight:bold" type="button" class="btn btn-warning" disabled>
                 <span class="glyphicon glyphicon-star"></span> Favourite</button> 
         }
+
+            <a style="margin-left: 20px; font-weight:bold" href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank" class="btn btn-primary">
+                <span class="glyphicon glyphicon-globe"></span>
+                Share
+            </a>
         </h4>
 
     

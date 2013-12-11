@@ -16,7 +16,7 @@ namespace VVS_System.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Assigment for the Software Engineering";
 
             return View();
         }

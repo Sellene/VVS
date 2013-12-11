@@ -2,7 +2,7 @@
 @model VVS_System.Models.UserModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = Model.User.Name;
 }
 
 <script>
@@ -45,8 +45,17 @@
     }
 </script>
 
-<h2>@Model.User.Name</h2>
-<button id="subscribe" style="margin-left: 20px;" type="button" onclick="subscribe(@Model.User.ID, '@Url.Action("Subscribe","VideoVisualization")') " class="btn btn-danger">@Model.Subscription</button>
+<h2>
+    @Model.User.Name
+    @if (User.Identity.IsAuthenticated && Model.User.Name.Equals(User.Identity.Name))
+    {
+        <button id="subscribe" style="margin-left: 20px;" type="button" class="btn btn-danger" disabled>@Model.Subscription</button>
+    }
+    else
+    {
+        <button id="subscribe" style="margin-left: 20px;" type="button" onclick="subscribe(@Model.User.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button>
+    }
+</h2>
 <br/>
 
 <legend>Uploaded videos</legend>

@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<VVS_System.Models.VideoModel>
 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="../../Content/jquery-ui.css">
+<script src="../../Scripts/jquery-1.9.1.js"></script>
+<script src="../../Scripts/jquery-ui.js"></script>
 
 <script type="text/javascript">
     $(function() {
@@ -13,7 +13,7 @@
     </script>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Search Videos";
 }
 
 <h1>Search Videos</h1>
@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="input-group">
-                <input name="searchKeywords" class="form-control" id="search" type="text" value="I'm looking for..." />
+                <input name="searchKeywords" class="form-control" id="search" type="text" onclick="this.value=''" value="I'm looking for..." />
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
