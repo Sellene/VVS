@@ -53,7 +53,7 @@
     }
     else
     {
-        <button id="subscribe" style="margin-left: 20px;" type="button" onclick="subscribe(@Model.User.ID, '@Url.Action("Subscribe")') " class="btn btn-danger">@Model.Subscription</button>
+        <button id="subscribe" style="margin-left: 20px;" type="button" onclick="subscribe(@Model.User.ID, '@Url.Action("Subscribe", "VideoVisualization", null)') " class="btn btn-danger">@Model.Subscription</button>
     }
 </h2>
 <br/>
